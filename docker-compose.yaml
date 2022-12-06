@@ -1,0 +1,43 @@
+# A Docker Compose must always start with the version tag.
+# We use '3' because it's the last version.
+version: '3'
+
+services:
+  database:
+    # Official Postgres image from DockerHub (we use the last version)
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      PGUSER: admin
+      POSTGRES_USER: admin # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: adminpass # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: portal_db # The PostgreSQL default database (automatically created at first launch)
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d portal_db"]
+      interval: 3s
+    networks:
+      - default
+  cache:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 3s
+    networks:
+      - default
+  portal:
+    image: test:latest
+    ports:
+      - 9001:9001
+    environment:
+      DB_HOST: database
+      REDIS_HOST: cache
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    networks:
+      - default
