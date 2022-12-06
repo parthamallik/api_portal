@@ -29,7 +29,7 @@ module.exports = {
                 logger.debug(`Setting cache subdomain#${data.id}`);
                 await redis.setEx(`subdomain#${data.id}`, 30, JSON.stringify(data));
             } catch(err) {
-                logger.error('Error while setting cache', err)
+                logger.error(`Error while setting cache ${err}`)
                 //ignore cache failure.
             }
         } catch(err) {

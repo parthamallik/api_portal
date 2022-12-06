@@ -65,7 +65,6 @@ paths:
       parameters:
         - name: subdomain_id
           in: path
-          description: Tags to filter by
           required: true
           schema:
             type: string
@@ -78,7 +77,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Subdomain-Get'
-                  
+  /apis/v1/subdomains/{subdomain_id}/gateways/{gateway_id}:
+    get:
+      tags:
+        - gateways
+      summary: Get subdomain by Id
+      parameters:
+        - name: subdomain_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gateway_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subdomain-Get'
   /apis/v1/subdomains/{subdomain_id}/gateways:
     get:
       tags:
