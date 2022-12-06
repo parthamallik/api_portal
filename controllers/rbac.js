@@ -1,6 +1,6 @@
 /*
  * Version		: 0.0.1
- * Description	: Handler for all Pet CRUD
+ * Description	: Middleware used for setting RBAC related stuffs in the request context
  *
  */
 

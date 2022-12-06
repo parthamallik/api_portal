@@ -1,6 +1,6 @@
 /*
  * Version		: 0.0.1
- * Description	: Handler for all Pet CRUD
+ * Description	: Handler for Gateways operations
  *
  */
 

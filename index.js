@@ -1,6 +1,6 @@
 /*
  * Name			: index.js
- * Author		: Partha Mallik (parthapratim.mallik@ca.com)
+ * Author		: Partha Mallik (mallik.partha@gmail.com)
  * Version		: 0.0.1
  * Description	: The http server to handle incoming requests
  *
