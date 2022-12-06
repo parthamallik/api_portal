@@ -14,6 +14,7 @@ const sobdomains = require(path.resolve(CONTROLLER_DIR, 'subdomains'));
 const gateways = require(path.resolve(CONTROLLER_DIR, 'gateways'));
 const rbac = require(path.resolve(CONTROLLER_DIR, 'rbac'));
 
+router.post("/", rbac.setContext, sobdomains.create);  // create a subdomain
 router.get("/", rbac.setContext, sobdomains.read);  // get all subdomains
 router.get("/:subdomain_id", rbac.setContext, sobdomains.read);  // get subdomain by id
 

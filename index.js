@@ -26,6 +26,9 @@ const fs = require('fs');
 const logger = __configurations.getLogger(__filename);
 const server = express()
 const BASE_PATH = '/api/v1';
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api-spec.yaml');
 
 server
     .use(cors()) // Enable CORS
@@ -36,6 +39,7 @@ server
         'extended': true
     })); // Parse urlencoded body with qs library
 
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 server.use(function (req, res, next) {
     if (req.originalUrl == "/echo") {
         res.status(200).send();

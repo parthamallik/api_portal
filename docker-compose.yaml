@@ -28,7 +28,8 @@ services:
     networks:
       - default
   portal:
-    image: test:latest
+    build: .
+    image: api-portal:latest
     ports:
       - 9001:9001
     environment:

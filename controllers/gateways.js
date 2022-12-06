@@ -9,6 +9,7 @@
 
 const logger = __configurations.getLogger(__filename);
 const model = require('../database/models').Gateway;
+const Subdomain = require('../database/models').Subdomain;
 const redis = require('../cache/redis');
 
 module.exports = {
@@ -40,17 +41,28 @@ module.exports = {
 
     'create': async (req, res, next) => {
         logger.debug(`Create Gateway ${JSON.stringify(req.body)} for subdomain ${req.params.subdomain_id}`);
-        const gateway = { ...req.body, subdomain_id: req.params.subdomain_id };
-        const data = await model.create(gateway);
-        //Send the response first
-        res.status(200).json(data);
-
-        // Then set the cache
         try {
-            logger.debug(`Setting cache gateway#${data.id}`);
-            await redis.setEx(`gateway#${data.id}`, 10, JSON.stringify(data));
+            const subdomain = await Subdomain.findAll({ 'where': { 'id': req.params.subdomain_id } });
+            if(subdomain.length === 0) {
+                logger.error(`Can not create Gateway. Subdomain with id ${req.params.subdomain_id} not found`);
+                return res.status(404).json({message: `Subdomain with id ${req.params.subdomain_id} not found`});
+            }
+            const gateway = { ...req.body, subdomain_id: req.params.subdomain_id };
+            delete gateway.id;
+            const data = await model.create(gateway);
+            //Send the response first
+            res.status(200).json(data);
+            // Then set the cache
+            try {
+                logger.debug(`Setting cache gateway#${data.id}`);
+                await redis.setEx(`gateway#${data.id}`, 30, JSON.stringify(data));
+            } catch(err) {
+                logger.error('Error while setting cache', err)
+                //ignore cache failure.
+            }
         } catch(err) {
-            logger.error('Error while setting cache', err)
+            logger.error('Error creating new gateway', err);
+            res.status(500).json({message: 'Internal Server error'});
             //ignore cache failure.
         }
     }
