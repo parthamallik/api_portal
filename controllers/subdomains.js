@@ -9,6 +9,8 @@
 
 const logger = __configurations.getLogger(__filename);
 const model = require('../database/models').Subdomain;
+const redis = require('../cache/redis');
+
 module.exports = {
     'read': async (req, res, next) => {
         logger.debug(`Get Subdomain(s) from Database ${JSON.stringify(req.params)}`);
