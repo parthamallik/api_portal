@@ -27,13 +27,14 @@ paths:
       summary: Get all subdomains
       responses:
         '200':
-          description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Subdomain-Get' 
+        '404':
+          description: Not found
     post:
       tags:
         - subdomains
@@ -70,13 +71,14 @@ paths:
             type: string
       responses:
         '200':
-          description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Subdomain-Get'
+        '404':
+          description: Not found
   /apis/v1/subdomains/{subdomain_id}/gateways/{gateway_id}:
     get:
       tags:
@@ -95,13 +97,14 @@ paths:
             type: string
       responses:
         '200':
-          description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Subdomain-Get'
+        '404':
+          description: Not found
   /apis/v1/subdomains/{subdomain_id}/gateways:
     get:
       tags:
@@ -122,6 +125,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Gateway-Get'
+        '404':
+          description: Not found
     post:
       tags:
         - gateways

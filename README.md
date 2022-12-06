@@ -16,7 +16,7 @@ Once the docker-compose stack is up, the swagger ui can be accessed at
 
 Feel free to try out !! 
 
-- Get all subdomains : will return empty list
+- Get all subdomains : will return 404
 - Create a subdomain : will get created, object wil be returned in response
 - Use the getSubdomain by Id Api : you will get the subdomain details returned
   - If you call this with 30 seconds of creation, it will be returned from cache ( redis )

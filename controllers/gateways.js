@@ -36,7 +36,8 @@ module.exports = {
         }
         logger.debug(`Fetching gateway with id ${req.params.gateway_id} from database`);
         const data = await model.findAll(filter);
-        res.status(200).json(data);
+        if (data.length === 0) res.status(404).json({ message: 'Not found' });
+        else res.status(200).json(data);
     },
 
     'create': async (req, res, next) => {
